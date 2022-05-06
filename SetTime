@@ -1,0 +1,21 @@
+public static void SetTime(short wHour, short wMinute, short wSecond)
+        {
+            var rand = new Random();
+            short ranSecond = (short)rand.Next(wSecond, 56);
+            string command = @"time " + wHour.ToString() + ":" + wMinute.ToString() + ":" + ranSecond.ToString();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo("CMD.exe", "/c " + command);
+            Process p = new Process();
+
+            startInfo.RedirectStandardInput = true;
+
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            p = Process.Start(startInfo);
+            p.StandardInput.WriteLine(@"EXIT");
+            p.StandardInput.Close();
+            p.WaitForExit();
+            p.Close();
+        }
